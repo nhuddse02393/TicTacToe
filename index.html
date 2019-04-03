@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<pre id="tictactoe"></pre>
+<input type="button" value="Put X" onclick="changeValue('X')">
+<input type="button" value="Put O" onclick="changeValue('O')">
+
+
+
+<script>
+    let b = document.getElementById("tictactoe");
+    let board = [];
+    let data = "";
+    let arrX = [], arrO = [];
+    for (let i = 0; i < 5; i++) {
+        board[i] = new Array(".", ".", ".", ".", ".");
+    }
+    for (let i = 0; i < 5; i++) {
+        data += "<br/>";
+        for (let j = 0; j < 5; j++) {
+            data += board[i][j] + "&nbsp;&nbsp;&nbsp";
+        }
+    }
+    data += "<br/><br/><input type='button' value='Go To' onclick='changeValue()'";
+    b.innerHTML = data;
+
+    function changeValue(input) {
+        let positionX = prompt("Tọa độ X: ");
+        let positionY = prompt("Tọa độ Y: ");
+        data = "";
+        board[positionX][positionY] = input;
+        if(input==="X")
+            arrX.push(parseInt(positionX+positionY));
+        else
+            arrO.push(parseInt(positionX+positionY));
+        arrX.sort(function(a, b){return a - b});
+        arrO.sort(function(a, b){return a - b});
+
+        for (let i = 0; i < 5; i++) {
+            data += "<br/>";
+            for (let j = 0; j < 5; j++)
+                data += board[i][j] + "&nbsp;&nbsp;&nbsp;";
+        }
+        b.innerHTML = "<hr/>" + data;
+        checkWin(input);
+    }
+
+
+    function checkWin(input){
+        if(input == "X") {
+            let winX = false;
+            if (arrX.length >= 3)
+                for (let i = 0; i < arrX.length - 2; i++)
+                    if (checkStraight(arrX[i], arrX[i + 1], arrX[i + 2])) {
+                        winX = true;
+                        break;
+                    }
+            if (winX == true)
+                alert("X win!");
+        }else {
+            let winO = false;
+            if (arrO.length >= 3)
+                for (let i = 0; i < arrO.length - 2; i++)
+                    if (checkStraight(arrO[i], arrO[i + 1], arrO[i + 2])) {
+                        winO = true;
+                        break;
+                    }
+            if (winO == true)
+                alert("O win!");
+        }
+    }
+
+    function checkStraight(a,b,c) {
+        return (a==b-1 && a==c-2) || (a==b-10 && a==c-20) || (a==b-11 && a==c-22)
+    }
+
+
+
+
+
+</script>
+</body>
+</html>
